@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('checkout') {
+        stage('Checkout') {
             steps {
                 checkout(
                     [
@@ -14,9 +14,46 @@ pipeline {
             }
         }
 
-        stage('Hello') {
+        stage('Build') {
             steps {
-                echo 'Hello Jenkin!'
+                script {
+                    echo 'Building the application...'
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    echo 'Running unit tests...'
+                }
+            }
+        }
+
+        stage('Deploy to Testing Environment') {
+            steps {
+                script {
+                    echo 'Deploying to testing environment...'
+                }
+            }
+        }
+
+        stage('Deliver to Production') {
+            when {
+                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+            }
+            steps {
+                script {
+                    echo 'Delivering to production environment...'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                echo 'Pipeline finished!'
             }
         }
     }
