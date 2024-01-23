@@ -17,37 +17,27 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                // Add your build commands here
-                // For example: sh 'mvn clean install'
+                sh 'mvn clean install'
+                archiveArtifacts 'target/*.jar' // Example: archive JAR files
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running unit tests...'
-                // Add your test commands here
-                // For example: sh 'mvn test'
+                sh 'mvn test'
             }
         }
 
         stage('Deploy to Testing Environment') {
             steps {
-                echo 'Deploying to testing environment...'
-                // Add your deployment commands here
-                // For example: sh 'kubectl apply -f testing-deployment.yaml'
+                catchError {
+                    echo 'Deploying to testing environment...'
+                    sh './deploy_script.sh testing'
+                }
             }
         }
 
-        stage('Deliver to Production') {
-            when {
-                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
-            }
-            steps {
-                echo 'Delivering to production environment...'
-                // Add your deployment commands here
-                // For example: sh 'kubectl apply -f production-deployment.yaml'
-            }
-        }
     }
 
     post {
