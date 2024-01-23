@@ -2,6 +2,18 @@ pipeline {
     agent any
 
     stages {
+        stage('checkout') {
+            steps {
+                checkout(
+                    [
+                        $class: 'GitSCM',
+                        branches: [[name: 'main']],
+                        userRemoteConfigs: [[credentialsId: 'jenkins-token', url: 'https://github.com/Nimraaa18/jenkins-repo.git']]
+                    ]
+                )
+            }
+        }
+
         stage('Hello') {
             steps {
                 echo 'Hello Jenkins'
@@ -9,3 +21,4 @@ pipeline {
         }
     }
 }
+
