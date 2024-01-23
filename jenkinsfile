@@ -16,25 +16,19 @@ pipeline {
 
         stage('Build') {
             steps {
-                script {
-                    echo 'Building the application...'
-                }
+                echo 'Building the application...'
             }
         }
 
         stage('Test') {
             steps {
-                script {
-                    echo 'Running unit tests...'
-                }
+                echo 'Running unit tests...'
             }
         }
 
         stage('Deploy to Testing Environment') {
             steps {
-                script {
-                    echo 'Deploying to testing environment...'
-                }
+                echo 'Deploying to testing environment...'
             }
         }
 
@@ -43,9 +37,7 @@ pipeline {
                 expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
             }
             steps {
-                script {
-                    echo 'Delivering to production environment...'
-                }
+                echo 'Delivering to production environment...'
             }
         }
     }
@@ -58,4 +50,3 @@ pipeline {
         }
     }
 }
-
